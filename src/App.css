@@ -7,10 +7,26 @@
   gap: 1rem;
 }
 
-label, input {
+label, input, p {
   color: white;
 }
 
 input {
   width: 87.14px;
+}
+
+.table-row {
+  width: 375px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 25px;
+  gap: 0.5rem;
+}
+
+.table-row p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  background-color: gray;
 }
