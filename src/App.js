@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import './App.css';
 import TableRow from './components/tableRow';
+import getCurrentDate from './utils/getCurrentDate';
 
 const App = () => {
   const inputRef = useRef()
@@ -12,6 +13,13 @@ const App = () => {
 
     fr.addEventListener("load", (e) => {
       const dataArray = e.target.result.split(", ").join(" ").split("\r\n").map(x => x.split(" "))
+
+      dataArray.forEach(x => {
+        if (x[3] === "NULL") {
+          x[3] = getCurrentDate()
+        }
+      })
+
       setFileData(dataArray)
     })
 
