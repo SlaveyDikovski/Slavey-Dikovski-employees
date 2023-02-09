@@ -1,5 +1,4 @@
 .App {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,18 +14,25 @@ input {
   width: 87.14px;
 }
 
+.table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .table-row {
-  width: 375px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 50px;
-  gap: 0.5rem;
+  display: flex;
+  max-height: 500px;
+  overflow-y: auto;
+  gap: 10px;
 }
 
 .table-row p {
   margin: 0;
   padding: 0;
-  text-align: center;
-  vertical-align: middle;
   background-color: gray;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

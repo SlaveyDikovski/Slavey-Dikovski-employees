@@ -104,9 +104,11 @@ const App = () => {
         projectsArray.push(`${key} ${employees[finalTeam][key].days}`)
       }
 
+      const [employeeID1, employeeID2] = finalTeam.split(" ")
+
       const output = {
-        employeeID1: finalTeam.split(" ")[0],
-        employeeID2: finalTeam.split(" ")[1],
+        employeeID1,
+        employeeID2,
         projects: projectsArray
       }
 
@@ -120,18 +122,21 @@ const App = () => {
     <div className="App">
       <label htmlFor='file-input'>CSV File</label>
       <input ref={inputRef} onChange={inputHandler} id='file-input' type="file" accept=".csv" />
-      {fileData && <div className='table-row'>
-        <p>Employee ID #1</p>
-        <p>Employee ID #2</p>
-        <p>Project ID</p>
-        <p>Days worked</p>
-      </div>}
-      {fileData && fileData.projects.map((dataArray, i) =>
-        <TableRow
-          key={i} project={dataArray}
-          employee1={fileData.employeeID1}
-          employee2={fileData.employeeID2}
-        />)}
+      <div className='table-container'>
+        {fileData &&
+          <div className='table-row'>
+            <p>Employee ID #1</p>
+            <p>Employee ID #2</p>
+            <p>Project ID</p>
+            <p>Days worked</p>
+          </div>}
+        {fileData && fileData.projects.map((dataArray, i) =>
+          <TableRow
+            key={i} project={dataArray}
+            employee1={fileData.employeeID1}
+            employee2={fileData.employeeID2}
+          />)}
+      </div>
     </div>
   );
 }
