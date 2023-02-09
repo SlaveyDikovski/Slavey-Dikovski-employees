@@ -1,14 +1,16 @@
 import React from 'react'
 
-const TableRow = ({ data }) => {
-    const [empID, projectID, dateFrom, dateTo] = data
+const TableRow = ({ project,
+    employee1,
+    employee2 }) => {
+    const [projectID, days] = project.split(" ")
 
     return (
         <div className='table-row'>
-            <p>{empID}</p>
+            <p>{employee1}</p>
+            <p>{employee2}</p>
             <p>{projectID}</p>
-            <p>{dateFrom}</p>
-            <p>{dateTo}</p>
+            <p>{days}</p>
         </div>
     )
 }

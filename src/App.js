@@ -78,7 +78,39 @@ const App = () => {
         }
       }
 
-      setFileData(dataArray)
+      const results = {}
+
+      for (const key1 in employees) {
+        results[key1] = 0
+        for (const key2 in employees[key1]) {
+          results[key1] += employees[key1][key2].days
+        }
+      }
+
+      let result = "id:0"
+
+      for (const key in results) {
+        let currentResult = Number(result.split(":")[1])
+
+        if (results[key] > currentResult) {
+          result = `${key}:${results[key]}`
+        }
+      }
+
+
+      let finalTeam = result.split(":")[0]
+      let projectsArray = []
+      for (const key in employees[finalTeam]) {
+        projectsArray.push(`${key} ${employees[finalTeam][key].days}`)
+      }
+
+      const output = {
+        employeeID1: finalTeam.split(" ")[0],
+        employeeID2: finalTeam.split(" ")[1],
+        projects: projectsArray
+      }
+
+      setFileData(output)
     })
 
     fr.readAsText(file)
@@ -89,12 +121,17 @@ const App = () => {
       <label htmlFor='file-input'>CSV File</label>
       <input ref={inputRef} onChange={inputHandler} id='file-input' type="file" accept=".csv" />
       {fileData && <div className='table-row'>
-        <p>empID</p>
-        <p>projectID</p>
-        <p>dateFrom</p>
-        <p>dateTo</p>
+        <p>Employee ID #1</p>
+        <p>Employee ID #2</p>
+        <p>Project ID</p>
+        <p>Days worked</p>
       </div>}
-      {fileData && fileData.map((dataArray, i) => <TableRow key={i} data={dataArray} />)}
+      {fileData && fileData.projects.map((dataArray, i) =>
+        <TableRow
+          key={i} project={dataArray}
+          employee1={fileData.employeeID1}
+          employee2={fileData.employeeID2}
+        />)}
     </div>
   );
 }
