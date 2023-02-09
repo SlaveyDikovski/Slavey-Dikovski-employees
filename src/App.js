@@ -20,6 +20,16 @@ const App = () => {
         }
       })
 
+      const projects = {}
+      //projects have nested objects, which have projectID as property name and array of project employees as value
+
+      dataArray.forEach(x => {
+        if (!projects[x[1]]) {
+          projects[x[1]] = []
+        }
+        projects[x[1]].push(`${x[0]} ${x[2]} ${x[3]}`)
+      })
+
       setFileData(dataArray)
     })
 
