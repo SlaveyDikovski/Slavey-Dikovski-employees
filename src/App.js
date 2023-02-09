@@ -2,6 +2,9 @@ import { useRef, useState } from 'react'
 import './App.css';
 import TableRow from './components/tableRow';
 import getCurrentDate from './utils/getCurrentDate';
+import checkOverlap from './utils/checkOverlap';
+import countDays from "./utils/countDays"
+import getDaysFromUnix from './utils/getDaysFromUnix';
 
 const App = () => {
   const inputRef = useRef()
@@ -27,8 +30,53 @@ const App = () => {
         if (!projects[x[1]]) {
           projects[x[1]] = []
         }
-        projects[x[1]].push(`${x[0]} ${x[2]} ${x[3]}`)
+
+        projects[x[1]].push(
+          {
+            employeeID: x[0],
+            dateFrom: new Date(x[2]).getTime(),
+            dateTo: new Date(x[3]).getTime()
+          })
       })
+
+      const employees = {}
+      //employees contain ID for employee pairs, which contains the projectID, which contains the days
+
+      for (const projectID in projects) {
+        const projectEmployees = projects[projectID]
+
+        for (const employee of projectEmployees) {
+          for (let i = 0; i < projectEmployees.length; i++) {
+            if (employee !== projectEmployees[i]) {
+              const otherEmployee = projectEmployees[i]
+
+              if (checkOverlap(employee, otherEmployee)) {
+                if (!employees[`${employee.employeeID} ${otherEmployee.employeeID}`]) {
+                  if (!Object.entries(employees).every(x => {
+                    const xSplit = x[0].split(" ")
+
+                    if (xSplit.includes(`${employee.employeeID}`) && xSplit.includes(`${otherEmployee.employeeID}`)) {
+                      return false
+                    }
+
+                    return true
+                  })) {
+                    break
+                  } else {
+                    employees[`${employee.employeeID} ${otherEmployee.employeeID}`] = {}
+                  }
+                }
+
+                if (!employees[`${employee.employeeID} ${otherEmployee.employeeID}`][projectID]) {
+                  employees[`${employee.employeeID} ${otherEmployee.employeeID}`][projectID] = {}
+                }
+
+                employees[`${employee.employeeID} ${otherEmployee.employeeID}`][projectID]["days"] = getDaysFromUnix(countDays(employee, projectEmployees[i]))
+              }
+            }
+          }
+        }
+      }
 
       setFileData(dataArray)
     })
